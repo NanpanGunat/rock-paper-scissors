@@ -11,11 +11,11 @@
 let computerScore = 0;
 let playerScore = 0;
 
+const choices = ["rock", "paper", "scissors"];
+
 function getComputerGuess() {
-  const guess = Math.floor(Math.random() * 3) + 1;
-  if (guess === 1) return "rock";
-  if (guess === 2) return "paper";
-  if (guess === 3) return "scissors";
+  const guess = Math.floor(Math.random() * 3);
+  return choices[guess];
 }
 
 function getPlayerSelection() {
@@ -34,7 +34,7 @@ function playRound(computerSelection, playerSelection) {
     playerScore++;
     return "it's a draw";
   }
-  ///////////
+  ////////////
   if (computer === "rock" && player === "scissors") {
     computerScore++;
     return "you lose,rock beats scissors";
@@ -62,13 +62,33 @@ function playRound(computerSelection, playerSelection) {
   return "invalid input";
 }
 
-function game() {
-  for (let index = 1; index <= 5; index++) {
-    console.log(playRound(getComputerGuess, getPlayerSelection));
-  }
+// function game() {
+//   for (let index = 1; index <= 5; index++) {
+//     console.log(playRound(getComputerGuess, getPlayerSelection));
+//   }
 
-  const winner = computerScore > playerScore ? "computer won" : "You won";
-  return winner;
+//   const winner = computerScore > playerScore ? "computer won" : "You won";
+//   return winner;
+// }
+
+// console.log(game());
+
+/**rps ui*/
+const btn_container = document.querySelector(".btn_container");
+
+function printChoice(e) {
+  console.log(e.target.className);
 }
 
-console.log(game());
+function createBtn(className) {
+  const btn = document.createElement("button");
+  btn.classList.add(className);
+  btn.textContent = className;
+
+  btn.addEventListener("click", printChoice);
+  return btn;
+}
+
+choices.forEach((e) => {
+  btn_container.appendChild(createBtn(e));
+});
