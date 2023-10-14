@@ -18,11 +18,6 @@ function getComputerGuess() {
   return choices[guess];
 }
 
-function getPlayerSelection() {
-  const guess = prompt("Rock, paper,or scissors ");
-  return guess.toLowerCase();
-}
-
 function playRound(computerSelection, playerSelection) {
   const computer = computerSelection();
   const player = playerSelection();
@@ -71,13 +66,18 @@ function playRound(computerSelection, playerSelection) {
 //   return winner;
 // }
 
-// console.log(game());
-
 /**rps ui*/
-const btn_container = document.querySelector(".btn_container");
 
-function printChoice(e) {
-  console.log(e.target.className);
+const btn_container = document.querySelector(".btn_container");
+const result_container = document.querySelector(".result_container");
+
+function playGame(e) {
+  function getPlayerSelection() {
+    return e.target.className;
+  }
+
+  const result = playRound(getComputerGuess, getPlayerSelection);
+  result_container.textContent = result;
 }
 
 function createBtn(className) {
@@ -85,7 +85,7 @@ function createBtn(className) {
   btn.classList.add(className);
   btn.textContent = className;
 
-  btn.addEventListener("click", printChoice);
+  btn.addEventListener("click", playGame);
   return btn;
 }
 
