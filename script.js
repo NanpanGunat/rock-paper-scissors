@@ -18,11 +18,15 @@ function getComputerGuess() {
   return choices[guess];
 }
 
+const computerScoreDiv = document.querySelector(".computer-score");
+const playerScoreSDiv = document.querySelector(".player-score");
+
 function playRound(computerSelection, playerSelection) {
   const computer = computerSelection();
   const player = playerSelection();
 
-  console.log("***" + computer, player + "***");
+  computerScoreDiv.textContent = computer;
+  playerScoreSDiv.textContent = player;
 
   if (computer === player) {
     computerScore++;
