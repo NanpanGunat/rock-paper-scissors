@@ -18,8 +18,13 @@ function getComputerGuess() {
   return choices[guess];
 }
 
-const computerScoreDiv = document.querySelector(".computer-score");
+const scores = document.querySelector(".scores");
 const playerScoreSDiv = document.querySelector(".player-score");
+const computerScoreDiv = document.querySelector(".computer-score");
+
+function updateScore() {
+  scores.textContent = `${computerScore}:${playerScore}`;
+}
 
 function playRound(computerSelection, playerSelection) {
   const computer = computerSelection();
@@ -29,29 +34,32 @@ function playRound(computerSelection, playerSelection) {
   playerScoreSDiv.textContent = player;
 
   if (computer === player) {
-    computerScore++;
-    playerScore++;
     return "it's a draw";
   }
   ////////////
   if (computer === "rock" && player === "scissors") {
     computerScore++;
+
     return "you lose,rock beats scissors";
   } else if (computer === "scissors" && player === "rock") {
     playerScore++;
+
     return "you win,rock beats scissors";
   }
   /////////////
   if (computer === "scissors" && player === "paper") {
     computerScore++;
+
     return "you lose,scissors beats paper";
   } else if (computer === "paper" && player === "scissors") {
     playerScore++;
+
     return "you win,scissors beats paper";
   }
   /////////////
   if (computer === "paper" && player === "rock") {
     computerScore++;
+
     return "you lose,paper beats rock";
   } else if (computer === "rock" && player === "paper") {
     playerScore++;
@@ -60,15 +68,6 @@ function playRound(computerSelection, playerSelection) {
 
   return "invalid input";
 }
-
-// function game() {
-//   for (let index = 1; index <= 5; index++) {
-//     console.log(playRound(getComputerGuess, getPlayerSelection));
-//   }
-
-//   const winner = computerScore > playerScore ? "computer won" : "You won";
-//   return winner;
-// }
 
 /**rps ui*/
 
@@ -82,6 +81,8 @@ function playGame(e) {
 
   const result = playRound(getComputerGuess, getPlayerSelection);
   result_container.textContent = result;
+  updateScore();
+  checkWinner();
 }
 
 function createBtn(className) {
@@ -92,7 +93,46 @@ function createBtn(className) {
   btn.addEventListener("click", playGame);
   return btn;
 }
+scores.textContent = `${computerScore}:${playerScore}`;
 
 choices.forEach((e) => {
   btn_container.appendChild(createBtn(e));
 });
+
+function disableBtn() {
+  btn_container.childNodes.forEach((btn) => (btn.disabled = true));
+}
+
+function enableBtn() {
+  btn_container.childNodes.forEach((btn) => (btn.disabled = false));
+}
+
+function checkWinner() {
+  if (computerScore === 5) {
+    result_container.textContent = "computer wins";
+    disableBtn();
+  }
+  if (playerScore === 5) {
+    result_container.textContent = "player wins";
+    disableBtn();
+  }
+}
+
+// restart game
+const restart = document.querySelector(".restart-btn");
+
+function restartGame() {
+  console.log("im working bro");
+  playerScore = 0;
+  computerScore = 0;
+
+  result_container.textContent = "";
+
+  updateScore();
+  enableBtn();
+}
+
+console.log(restart);
+
+restart.addEventListener("click", restartGame);
+updateScore();
